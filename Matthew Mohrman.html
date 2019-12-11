@@ -1,90 +1,4 @@
-const fs = require('fs'),
-    convertFactory = require('electron-html-to');
-const axios = require("axios");
-const inquirer = require("inquirer");
 
-const conversion = convertFactory({
-    converterPath: convertFactory.converters.PDF
-  });
-
-  const colors = {
-    green: {
-      wrapperBackground: "#E6E1C3",
-      headerBackground: "#C1C72C",
-      headerColor: "black",
-      photoBorderColor: "#black"
-    },
-    blue: {
-      wrapperBackground: "#5F64D3",
-      headerBackground: "#26175A",
-      headerColor: "white",
-      photoBorderColor: "#73448C"
-    },
-    pink: {
-      wrapperBackground: "#879CDF",
-      headerBackground: "#FF8374",
-      headerColor: "white",
-      photoBorderColor: "#FEE24C"
-    },
-    red: {
-      wrapperBackground: "#DE9967",
-      headerBackground: "#870603",
-      headerColor: "white",
-      photoBorderColor: "white"
-    }
-  };
-
-// const pdf = require('html-pdf');
-
-
-let avatarURL;
-let name;
-let company;
-let gitHubURL;
-let blogURL;
-let publicRepos;
-let followers;
-let following;
-let location;
-let bio;
-let githubStars;
-
-
-inquirer
-    .prompt([{
-        message: "Enter your GitHub username",
-        name: "username"
-    },
-    {
-        message: "Choose a color and let's hope HTML knows what it is",
-        name: "color",
-    }])
-
-    .then(function (data) {
-        const queryUrl = `https://api.github.com/users/${data.username}`;
-        const queryUrlStarred = `https://api.github.com/users/${data.username}/starred`
-
-        axios.get(queryUrl).then(function (response) {
-            avatarURL = response.data.avatar_url;
-            name = response.data.name;
-            company = response.data.company;
-            gitHubURL = response.data.html_url;
-            blogURL = response.data.blog;
-            publicRepos = response.data.public_repos;
-            followers = response.data.followers;
-            following = response.data.following;
-            location = response.data.location;
-            bio = response.data.bio;
-
-            axios.get(queryUrlStarred).then(function (response) {
-                githubStars = response.data.length
-                
-                let userColor = data.color
-
-                // console.log(colors[userColor].wrapperBackground)
-
-
-                const htmlFormat = `
                 <html lang="en">
 
                 <head>
@@ -119,9 +33,7 @@ inquirer
                         }
             
                         .wrapper {
-                            background-color: ${
-                    userColor
-                    }
+                            background-color: red
             
                             ;
                             padding-top: 100px;
@@ -181,9 +93,7 @@ inquirer
                             justify-content: center;
                             flex-wrap: wrap;
             
-                            background-color: ${
-                    userColor
-                    }
+                            background-color: red
             
                             ;
             
@@ -203,9 +113,7 @@ inquirer
                             margin-top: -75px;
                             background-color: white;
             
-                            border: 6px solid ${
-                    userColor
-                    }
+                            border: 6px solid red
             
                             ;
                             box-shadow: rgba(0, 0, 0, 0.3) 4px 1px 20px 4px;
@@ -258,9 +166,7 @@ inquirer
                             padding: 20px;
                             border-radius: 6px;
             
-                            background-color: ${
-                    userColor
-                    }
+                            background-color: red
             
                             ;
             
@@ -293,14 +199,14 @@ inquirer
                         <div class="row">
                             <div class="col">
                                 <div class="photo-header">
-                                    <img src="${avatarURL}">
+                                    <img src="https://avatars3.githubusercontent.com/u/2709?v=4">
                                     <h1>Hi!</h1>
-                                    <h2>My name is ${name}</h2>
-                                    <h5>Currently @ ${company}</h5>
+                                    <h2>My name is Matthew Mohrman</h2>
+                                    <h5>Currently @ null</h5>
                                     <div class="link-nav">
-                                        <a href="https://www.google.com/maps?q=${location}" target="_blank" class="nav-link"><i class="fas fa-location-arrow"></i>${location}</a>
-                                        <a href="${gitHubURL}" target="_blank" class="nav-link"><i class="fab fa-github fa-sm"></i>GitHub</a>
-                                        <a href="${blogURL}" target="_blank" class="nav-link"><i class="fas fa-rss fa-sm"></i>Blog</a>
+                                        <a href="https://www.google.com/maps?q=Asheville, NC" target="_blank" class="nav-link"><i class="fas fa-location-arrow"></i>Asheville, NC</a>
+                                        <a href="https://github.com/matt" target="_blank" class="nav-link"><i class="fab fa-github fa-sm"></i>GitHub</a>
+                                        <a href="" target="_blank" class="nav-link"><i class="fas fa-rss fa-sm"></i>Blog</a>
                                     </div>
                                 </div>
                             </div>
@@ -309,20 +215,20 @@ inquirer
                     <div class="container">
                         <div class="row">
                             <div class="col">
-                                <h6>${bio}</h6>
+                                <h6>null</h6>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="card">
                                     <h5>Public Repositories</h5>
-                                    <h5>${publicRepos}</h5>
+                                    <h5>9</h5>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="card">
                                     <h5>Followers</h5>
-                                    <h5>${followers}</h5>
+                                    <h5>10</h5>
                                 </div>
                             </div>
                         </div>
@@ -330,13 +236,13 @@ inquirer
                             <div class="col">
                                 <div class="card">
                                     <h5>GitHub Stars</h5>
-                                    <h5>${githubStars}</h5>
+                                    <h5>0</h5>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="card">
                                     <h5>Following</h5>
-                                    <h5>${following}</h5>
+                                    <h5>0</h5>
                                 </div>
                             </div>
                         </div>
@@ -350,32 +256,4 @@ inquirer
                 </body>
             
                 </html>
-                    `
-
-                fs.writeFile(`${name}.html`, htmlFormat, function (err) {
-                    if (err) {
-                        console.log(err)
-                    }
-                    else {
-                        console.log("Success!");
-                    }
-                });
-
-                conversion({ html: htmlFormat }, function(err, result) {
-                    if (err) {
-                      return console.error(err);
-                    } else {
-                        console.log("Great Success!");
-                    }
-                   
-                    result.stream.pipe(fs.createWriteStream(`./${name}.pdf`));
-                    conversion.kill(); // necessary if you use the electron-server strategy, see bellow for details
-                  });
-
-            })
-       
-
-        })
-
-
-    });
+                    
