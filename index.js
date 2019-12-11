@@ -1,6 +1,13 @@
-const fs = require("fs");
+const fs = require('fs'),
+    convertFactory = require('electron-html-to');
 const axios = require("axios");
 const inquirer = require("inquirer");
+
+const conversion = convertFactory({
+    converterPath: convertFactory.converters.PDF
+  });
+
+// const pdf = require('html-pdf');
 
 
 let avatarURL;
@@ -29,8 +36,6 @@ inquirer
     .then(function (data) {
         const queryUrl = `https://api.github.com/users/${data.username}`;
         const queryUrlStarred = `https://api.github.com/users/${data.username}/starred`
-        // console.log(data.username)
-        // console.log(userColor)
 
         axios.get(queryUrl).then(function (response) {
             avatarURL = response.data.avatar_url;
@@ -46,12 +51,10 @@ inquirer
 
             axios.get(queryUrlStarred).then(function (response) {
                 githubStars = response.data.length
-                // console.log(name, githubStars, data.color)
+                
                 let userColor = data.color
 
-                // console.log(userColor)
-
-
+                
 
                 const htmlFormat = `
                 <html lang="en">
@@ -89,8 +92,8 @@ inquirer
             
                         .wrapper {
                             background-color: ${
-                userColor
-                }
+                    userColor
+                    }
             
                             ;
                             padding-top: 100px;
@@ -151,8 +154,8 @@ inquirer
                             flex-wrap: wrap;
             
                             background-color: ${
-                userColor
-                }
+                    userColor
+                    }
             
                             ;
             
@@ -173,8 +176,8 @@ inquirer
                             background-color: white;
             
                             border: 6px solid ${
-                userColor
-                }
+                    userColor
+                    }
             
                             ;
                             box-shadow: rgba(0, 0, 0, 0.3) 4px 1px 20px 4px;
@@ -228,8 +231,8 @@ inquirer
                             border-radius: 6px;
             
                             background-color: ${
-                userColor
-                }
+                    userColor
+                    }
             
                             ;
             
@@ -320,8 +323,8 @@ inquirer
             
                 </html>
                     `
-                
-                fs.appendFile("log.html", htmlFormat, function (err) {
+
+                fs.writeFile(`${name}.html`, htmlFormat, function (err) {
                     if (err) {
                         console.log(err)
                     }
@@ -330,24 +333,21 @@ inquirer
                     }
                 });
 
+                conversion({ html: htmlFormat }, function(err, result) {
+                    if (err) {
+                      return console.error(err);
+                    } else {
+                        console.log("Great Success!");
+                    }
+                   
+                    result.stream.pipe(fs.createWriteStream(`./${name}.pdf`));
+                    conversion.kill(); // necessary if you use the electron-server strategy, see bellow for details
+                  });
+
             })
-            //   console.log(response.data[response.data.length-1]);
-            //   const repoNames = response.data.map(function(repo){
-            //     return repo.name
-            //   });
-            //   console.log(repoNames)
-
-
-
+       
 
         })
 
-
-        // const names = response.data.map
-        // console.log(response.data.name)
-        // names.foreach(function(name){
-        //   console.log(name);
-        // })
-        // });
 
     });
