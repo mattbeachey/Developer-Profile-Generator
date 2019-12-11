@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" />
     <link href="https://fonts.googleapis.com/css?family=BioRhyme|Cabin&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>Document</title>
     <style>
         @page {
@@ -31,9 +32,7 @@
         }
 
         .wrapper {
-            background-color: $ {
-                colors[data.color].wrapperBackground
-            }
+            background-color: ${userColor}
 
             ;
             padding-top: 100px;
@@ -93,15 +92,11 @@
             justify-content: center;
             flex-wrap: wrap;
 
-            background-color: $ {
-                colors[data.color].headerBackground
-            }
+            background-color: ${userColor}
 
             ;
 
-            color: $ {
-                colors[data.color].headerColor
-            }
+            color: ${userColor}
 
             ;
             padding: 10px;
@@ -116,9 +111,7 @@
             object-fit: cover;
             margin-top: -75px;
 
-            border: 6px solid $ {
-                colors[data.color].photoBorderColor
-            }
+            border: 6px solid ${userColor}
 
             ;
             box-shadow: rgba(0, 0, 0, 0.3) 4px 1px 20px 4px;
@@ -171,15 +164,11 @@
             padding: 20px;
             border-radius: 6px;
 
-            background-color: $ {
-                colors[data.color].headerBackground
-            }
+            background-color: ${userColor}
 
             ;
 
-            color: $ {
-                colors[data.color].headerColor
-            }
+            color: ${userColor}
 
             ;
             margin: 20px;
@@ -202,7 +191,66 @@
                 zoom: .75;
             }
         }
-    </style>`
-    }
+    </style>
+  <body>
+    <header class="wrapper">
+        <div class="row">
+            <div class="col">
+                <div class="photo-header">
+                    <img src="${avatarURL}">
+                    <h1>Hi!</h1>
+                    <h2>My name is ${name}</h2>
+                    <h5>Currently @ ${company}</h5>
+                    <div class="link-nav">
+                        <a href="https://www.google.com/maps?q=${location}" target="_blank" class="nav-link"><i class="fas fa-location-arrow"></i>${location}</a>
+                        <a href="${gitHubURL}" target="_blank" class="nav-link"><i class="fab fa-github fa-sm"></i>GitHub</a>
+                        <a href="${blogURL}" target="_blank" class="nav-link"><i class="fas fa-rss fa-sm"></i>Blog</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h6>${bio}</h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <h5>Public Repositories</h5>
+                    <h5>${publicRepos}</h5>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <h5>Followers</h5>
+                    <h5>${followers}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <h5>GitHub Stars</h5>
+                    <h5>${githubStars}</h5>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <h5>Following</h5>
+                    <h5>${following}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="wrapper">
+    </footer>
+
+
+
+</body>
 
 </html>
